@@ -3,6 +3,7 @@
     package="net.alexblass.chess.base">
 
     <application
+        android:name="net.alexblass.chess.ChessApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -21,9 +22,9 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="http"
                     android:host="www.alexblass.net"
-                    android:path="/chess/play" />
+                    android:path="/chess/play"
+                    android:scheme="http" />
             </intent-filter>
         </activity>
     </application>
