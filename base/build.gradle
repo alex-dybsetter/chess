@@ -1,9 +1,9 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.feature'
 
 android {
     compileSdkVersion 28
+    baseFeature true
     defaultConfig {
-        applicationId "net.alexblass.chess"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
