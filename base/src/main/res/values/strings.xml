@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Chess</string>
+
+    <!--Piece colors-->
+    <string name="string_color_black">black</string>
+    <string name="string_color_white">white</string>
 </resources>
