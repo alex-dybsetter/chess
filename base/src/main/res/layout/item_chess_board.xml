@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/chessBoardGridView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:horizontalSpacing="@dimen/padding_0dp"
+    android:numColumns="8"
+    android:padding="@dimen/padding_0dp"
+    android:stretchMode="columnWidth"
+    android:verticalSpacing="@dimen/padding_0dp" />

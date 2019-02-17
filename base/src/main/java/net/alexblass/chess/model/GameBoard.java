@@ -22,8 +22,7 @@ import static net.alexblass.chess.model.PieceColor.WHITE;
  */
 public class GameBoard {
 
-    private AbstractPiece[][] mPiecePlacementArray = new
-            AbstractPiece[BOARD_LENGTH][BOARD_LENGTH];
+    private AbstractPiece[][] mPiecePlacementArray = new AbstractPiece[BOARD_LENGTH][BOARD_LENGTH];
 
     private List<AbstractPiece> mWhitePieces;
     private List<AbstractPiece> mBlackPieces;
@@ -72,5 +71,15 @@ public class GameBoard {
     private void placeNewPiece(List<AbstractPiece> coloredPiecesList, AbstractPiece piece, int row, int col) {
         coloredPiecesList.add(piece);
         mPiecePlacementArray[row][col] = piece;
+    }
+
+    // Getters and setters ////////////////////////////////////////////////////////////////////////
+
+    public AbstractPiece[][] getPiecePlacementArray() {
+        return mPiecePlacementArray;
+    }
+
+    public int getSize() {
+        return BOARD_LENGTH * BOARD_LENGTH;
     }
 }
