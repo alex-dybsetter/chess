@@ -8,7 +8,7 @@ import net.alexblass.chess.model.PieceColor;
 public abstract class AbstractPiece {
 
     private String mName;
-    private PieceColor mColor;
+    protected PieceColor mColor;
     private int mRow;
     private int mCol;
     private int mPointsValue;
@@ -17,7 +17,7 @@ public abstract class AbstractPiece {
     private boolean mIsActive;
 
     abstract public boolean isValidMove();
-    abstract public int getImageResIdByColor(PieceColor color);
+    abstract public int getImageResId();
 
     public AbstractPiece(PieceColor color, int row, int col) {
         mColor = color;
