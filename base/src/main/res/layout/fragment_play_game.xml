@@ -4,4 +4,6 @@
     android:layout_height="match_parent"
     tools:context="net.alexblass.chess.fragment.PlayGameFragment">
 
+    <include layout="@layout/item_chess_board" />
+
 </FrameLayout>

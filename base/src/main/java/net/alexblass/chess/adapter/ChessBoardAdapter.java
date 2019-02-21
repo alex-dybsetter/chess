@@ -14,6 +14,8 @@ import net.alexblass.chess.constant.Constants;
 import net.alexblass.chess.model.GameBoard;
 import net.alexblass.chess.model.piece.AbstractPiece;
 
+import static net.alexblass.chess.constant.Constants.BOARD_LENGTH;
+
 /**
  * An adapter to correctly display the game tiles on the chess board.
  */
@@ -80,13 +82,14 @@ public class ChessBoardAdapter extends ArrayAdapter {
             viewHolder.setSquareDimens(mChessSquareSizeInDp);
         }
 
-        if (piece != null) {
-            viewHolder.chessSquareImageView.setImageResource(piece.getImageResId());
-        } else {
-            viewHolder.chessSquareImageView.setImageResource(0);
-        }
+        int resId = (piece != null) ? piece.getImageResId() : 0;
+        viewHolder.chessSquareImageView.setImageResource(resId);
 
         return gameBoardSquare;
+    }
+
+    public int getGridViewSizeFromChessSquareSize() {
+        return (getScreenShortSide(mMetrics) / Constants.BOARD_LENGTH) * BOARD_LENGTH;
     }
 
     // Private static helper methods //////////////////////////////////////////////////////////////
@@ -100,6 +103,12 @@ public class ChessBoardAdapter extends ArrayAdapter {
 
     private static int convertRowColToPosition(int row, int col) {
         return row * Constants.BOARD_LENGTH + col;
+    }
+
+    private static int getScreenShortSide(DisplayMetrics metrics) {
+        int screenHeight = metrics.heightPixels;
+        int screenWidth = metrics.widthPixels;
+        return (screenHeight < screenWidth) ? screenHeight : screenWidth;
     }
 
     // Viewholder /////////////////////////////////////////////////////////////////////////////////
@@ -129,20 +138,7 @@ public class ChessBoardAdapter extends ArrayAdapter {
         * Set the chess square dimensions based off of the device size.
         **/
         private void setSquareDimens(DisplayMetrics metrics) {
-
-            int screenHeight = metrics.heightPixels;
-            int screenWidth = metrics.widthPixels;
-
-            int screenShortSide, screenLongSide;
-            if (screenHeight < screenWidth){
-                screenShortSide = screenHeight;
-                screenLongSide = screenWidth;
-            } else {
-                screenShortSide = screenWidth;
-                screenLongSide = screenHeight;
-            }
-
-            int chessSquareSize = (int) (screenShortSide / Constants.BOARD_LENGTH);
+            int chessSquareSize = (getScreenShortSide(metrics) / Constants.BOARD_LENGTH);
 
             chessSquareImageView.getLayoutParams().width = chessSquareSize;
             chessSquareImageView.getLayoutParams().height = chessSquareSize;
