@@ -1,5 +1,6 @@
 package net.alexblass.chess.model.piece;
 
+import net.alexblass.chess.base.R;
 import net.alexblass.chess.model.PieceColor;
 
 /**
@@ -43,7 +44,7 @@ public class PawnPiece extends AbstractPiece {
     }
 
     @Override
-    public int getImageResIdByColor(PieceColor color) {
-        return 0;
+    public int getImageResId() {
+        return mColor.equals(PieceColor.BLACK) ? R.drawable.ic_piece_modern_pawn_black : R.drawable.ic_piece_modern_pawn_white;
     }
 }

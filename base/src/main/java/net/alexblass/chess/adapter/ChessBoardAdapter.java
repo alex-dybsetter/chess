@@ -80,6 +80,12 @@ public class ChessBoardAdapter extends ArrayAdapter {
             viewHolder.setSquareDimens(mChessSquareSizeInDp);
         }
 
+        if (piece != null) {
+            viewHolder.chessSquareImageView.setImageResource(piece.getImageResId());
+        } else {
+            viewHolder.chessSquareImageView.setImageResource(0);
+        }
+
         return gameBoardSquare;
     }
 

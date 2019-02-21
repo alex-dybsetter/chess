@@ -33,15 +33,16 @@ public class GameBoard {
         int row = HOME_ROW_BLACK;
         int col = 0;
 
-        placeNewPiece(mBlackPieces, new RookPiece(BLACK, row, col++), row, col);
-        placeNewPiece(mBlackPieces, new KnightPiece(BLACK, row, col++), row, col);
-        placeNewPiece(mBlackPieces, new BishopPiece(BLACK, row, col++), row, col);
-        placeNewPiece(mBlackPieces, new QueenPiece(BLACK, row, col++), row, col);
-        placeNewPiece(mBlackPieces, new KingPiece(BLACK, row, col++), row, col);
-        placeNewPiece(mBlackPieces, new BishopPiece(BLACK, row, col++), row, col);
-        placeNewPiece(mBlackPieces, new KnightPiece(BLACK, row, col++), row, col);
+        placeNewPiece(mBlackPieces, new RookPiece(BLACK, row, col), row, col++);
+        placeNewPiece(mBlackPieces, new KnightPiece(BLACK, row, col), row, col++);
+        placeNewPiece(mBlackPieces, new BishopPiece(BLACK, row, col), row, col++);
+        placeNewPiece(mBlackPieces, new QueenPiece(BLACK, row, col), row, col++);
+        placeNewPiece(mBlackPieces, new KingPiece(BLACK, row, col), row, col++);
+        placeNewPiece(mBlackPieces, new BishopPiece(BLACK, row, col), row, col++);
+        placeNewPiece(mBlackPieces, new KnightPiece(BLACK, row, col), row, col++);
         placeNewPiece(mBlackPieces, new RookPiece(BLACK, row, col), row, col);
 
+        row++;
         for (col = 0; col < BOARD_LENGTH; col++) {
             placeNewPiece(mBlackPieces, new PawnPiece(BLACK, row, col), row, col);
         }
@@ -57,13 +58,13 @@ public class GameBoard {
         row = HOME_ROW_WHITE;
         col = 0;
 
-        placeNewPiece(mWhitePieces, new RookPiece(WHITE, row, col++), row, col);
-        placeNewPiece(mWhitePieces, new KnightPiece(WHITE, row, col++), row, col);
-        placeNewPiece(mWhitePieces, new BishopPiece(WHITE, row, col++), row, col);
-        placeNewPiece(mWhitePieces, new QueenPiece(WHITE, row, col++), row, col);
-        placeNewPiece(mWhitePieces, new KingPiece(WHITE, row, col++), row, col);
-        placeNewPiece(mWhitePieces, new BishopPiece(WHITE, row, col++), row, col);
-        placeNewPiece(mWhitePieces, new KnightPiece(WHITE, row, col++), row, col);
+        placeNewPiece(mWhitePieces, new RookPiece(WHITE, row, col), row, col++);
+        placeNewPiece(mWhitePieces, new KnightPiece(WHITE, row, col), row, col++);
+        placeNewPiece(mWhitePieces, new BishopPiece(WHITE, row, col), row, col++);
+        placeNewPiece(mWhitePieces, new QueenPiece(WHITE, row, col), row, col++);
+        placeNewPiece(mWhitePieces, new KingPiece(WHITE, row, col), row, col++);
+        placeNewPiece(mWhitePieces, new BishopPiece(WHITE, row, col), row, col++);
+        placeNewPiece(mWhitePieces, new KnightPiece(WHITE, row, col), row, col++);
         placeNewPiece(mWhitePieces, new RookPiece(WHITE, row, col), row, col);
     }
 
