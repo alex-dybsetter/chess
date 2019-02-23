@@ -27,6 +27,6 @@ public class RookPiece extends AbstractPiece {
 
     @Override
     public int getImageResId() {
-        return mColor.equals(PieceColor.BLACK) ? R.drawable.ic_piece_modern_rook_black : R.drawable.ic_piece_modern_rook_white;
+        return getColor().equals(PieceColor.BLACK) ? R.drawable.ic_piece_modern_rook_black : R.drawable.ic_piece_modern_rook_white;
     }
 }

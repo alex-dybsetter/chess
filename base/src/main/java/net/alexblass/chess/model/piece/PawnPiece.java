@@ -45,6 +45,6 @@ public class PawnPiece extends AbstractPiece {
 
     @Override
     public int getImageResId() {
-        return mColor.equals(PieceColor.BLACK) ? R.drawable.ic_piece_modern_pawn_black : R.drawable.ic_piece_modern_pawn_white;
+        return getColor().equals(PieceColor.BLACK) ? R.drawable.ic_piece_modern_pawn_black : R.drawable.ic_piece_modern_pawn_white;
     }
 }

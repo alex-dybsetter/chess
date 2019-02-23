@@ -8,7 +8,7 @@ import net.alexblass.chess.model.PieceColor;
 public abstract class AbstractPiece {
 
     private String mName;
-    protected PieceColor mColor;
+    private PieceColor mColor;
     private int mRow;
     private int mCol;
     private int mPointsValue;
@@ -23,5 +23,26 @@ public abstract class AbstractPiece {
         mColor = color;
         mRow = row;
         mCol = col;
+    }
+
+    public int getRow() {
+        return mRow;
+    }
+
+    public int getCol() {
+        return mCol;
+    }
+
+    public PieceColor getColor() {
+        return mColor;
+    }
+
+    public void setCoordinates(int row, int col) {
+        mRow = row;
+        mCol = col;
+    }
+
+    public void setHasMovedFromStart(boolean hasMovedFromStart) {
+        mHasMovedFromStart = hasMovedFromStart;
     }
 }

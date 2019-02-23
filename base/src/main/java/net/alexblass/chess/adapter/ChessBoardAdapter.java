@@ -25,6 +25,7 @@ public class ChessBoardAdapter extends ArrayAdapter {
     private GameBoard mGameBoard;
     private DisplayMetrics mMetrics;
     private int mChessSquareSizeInDp;
+    private int mSelectedPieceIndex;
 
     public ChessBoardAdapter(Context context, GameBoard gameBoard, DisplayMetrics metrics) {
         super(context, R.layout.item_chess_board_square, gameBoard.getPiecePlacementArray());
@@ -32,6 +33,7 @@ public class ChessBoardAdapter extends ArrayAdapter {
         mGameBoard = gameBoard;
         mMetrics = metrics;
         mChessSquareSizeInDp = -1;
+        mSelectedPieceIndex = Constants.NO_PIECE_SELECTED;
     }
 
     public ChessBoardAdapter(Context context, GameBoard gameBoard, int chessSquareSizeInDp) {
@@ -43,14 +45,12 @@ public class ChessBoardAdapter extends ArrayAdapter {
     }
 
     public AbstractPiece getItem(int row, int col) {
-        return mGameBoard.getPiecePlacementArray()[row][col];
+        return mGameBoard.getPieceAtCoordinates(row, col);
     }
 
     @Override
     public AbstractPiece getItem(int position) {
-        int row = convertPositionToRow(position);
-        int col = convertPositionToCol(position);
-        return getItem(row, col);
+        return mGameBoard.getPieceAtPosition(position);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class ChessBoardAdapter extends ArrayAdapter {
             viewHolder = (ChessSquareViewHolder) gameBoardSquare.getTag();
         }
 
-        viewHolder.setSquareColor(mContext, position);
+        viewHolder.setSquareColor(mContext, position, mSelectedPieceIndex);
 
         if (mChessSquareSizeInDp == -1) {
             viewHolder.setSquareDimens(mMetrics);
@@ -88,23 +88,39 @@ public class ChessBoardAdapter extends ArrayAdapter {
         return gameBoardSquare;
     }
 
+    public void toggleSelectPiece(int position) {
+        mSelectedPieceIndex = mSelectedPieceIndex == Constants.NO_PIECE_SELECTED ?
+                position : Constants.NO_PIECE_SELECTED;
+        notifyDataSetChanged();
+    }
+
+    public void movePiece(AbstractPiece piece, int row, int col) {
+        mGameBoard.movePiece(piece, row, col);
+        notifyDataSetChanged();
+    }
+
+    public GameBoard getGameBoard() {
+        return mGameBoard;
+    }
+
     public int getGridViewSizeFromChessSquareSize() {
         return (getScreenShortSide(mMetrics) / Constants.BOARD_LENGTH) * BOARD_LENGTH;
     }
 
-    // Private static helper methods //////////////////////////////////////////////////////////////
-    private static int convertPositionToRow(int position) {
+    // public static methods //////////////////////////////////////////////////////////////////////
+    public static int convertPositionToRow(int position) {
         return position / Constants.BOARD_LENGTH;
     }
 
-    private static int convertPositionToCol(int position) {
+    public static int convertPositionToCol(int position) {
         return position % Constants.BOARD_LENGTH;
     }
 
-    private static int convertRowColToPosition(int row, int col) {
+    public static int convertRowColToPosition(int row, int col) {
         return row * Constants.BOARD_LENGTH + col;
     }
 
+    // private static helper methods //////////////////////////////////////////////////////////////
     private static int getScreenShortSide(DisplayMetrics metrics) {
         int screenHeight = metrics.heightPixels;
         int screenWidth = metrics.widthPixels;
@@ -115,7 +131,7 @@ public class ChessBoardAdapter extends ArrayAdapter {
     static class ChessSquareViewHolder {
         ImageView chessSquareImageView;
 
-        private void setSquareColor(Context context, int position){
+        private void setSquareColor(Context context, int position, int selectedPosition){
             int row = convertPositionToRow(position);
             int col = convertPositionToCol(position);
             int colorId;
@@ -130,6 +146,9 @@ public class ChessBoardAdapter extends ArrayAdapter {
                 colorId = col % 2 == 0 ? R.color.color_white : R.color.color_black;
             } else {
                 colorId = col % 2 == 0 ? R.color.color_black : R.color.color_white;
+            }
+            if (selectedPosition == position) {
+                colorId = R.color.color_selected;
             }
             chessSquareImageView.setBackgroundColor(ContextCompat.getColor(context, colorId));
         }

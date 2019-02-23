@@ -1,5 +1,6 @@
 package net.alexblass.chess.model;
 
+import net.alexblass.chess.adapter.ChessBoardAdapter;
 import net.alexblass.chess.model.piece.AbstractPiece;
 import net.alexblass.chess.model.piece.BishopPiece;
 import net.alexblass.chess.model.piece.KingPiece;
@@ -68,6 +69,16 @@ public class GameBoard {
         placeNewPiece(mWhitePieces, new RookPiece(WHITE, row, col), row, col);
     }
 
+    public void movePiece(AbstractPiece piece, int newRow, int newCol) {
+        int oldRow = piece.getRow();
+        int oldCol = piece.getCol();
+        mPiecePlacementArray[oldRow][oldCol] = null;
+
+        piece.setCoordinates(newRow, newCol);
+        piece.setHasMovedFromStart(true);
+        mPiecePlacementArray[newRow][newCol] = piece;
+    }
+
     // Helper methods /////////////////////////////////////////////////////////////////////////////
     private void placeNewPiece(List<AbstractPiece> coloredPiecesList, AbstractPiece piece, int row, int col) {
         coloredPiecesList.add(piece);
@@ -82,5 +93,15 @@ public class GameBoard {
 
     public int getSize() {
         return BOARD_LENGTH * BOARD_LENGTH;
+    }
+
+    public AbstractPiece getPieceAtCoordinates(int row, int col) {
+        return mPiecePlacementArray[row][col];
+    }
+
+    public AbstractPiece getPieceAtPosition(int position) {
+        int row = ChessBoardAdapter.convertPositionToRow(position);
+        int col = ChessBoardAdapter.convertPositionToCol(position);
+        return getPieceAtCoordinates(row, col);
     }
 }
