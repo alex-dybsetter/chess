@@ -40,5 +40,6 @@ public class Constants {
     // coordinate, use (x * BOARD_LENGTH) + y. This formula
     // is already saved in our Piece class in mListPosition
 
+    public static final int CHESS_SQUARE_SIZE_UNSPECIFIED = -1;
     public static final int NO_PIECE_SELECTED = -1;
 }

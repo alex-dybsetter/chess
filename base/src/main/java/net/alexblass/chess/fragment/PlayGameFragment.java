@@ -2,7 +2,6 @@ package net.alexblass.chess.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,10 +45,7 @@ public class PlayGameFragment extends Fragment {
     }
 
     private void initializeChessBoard() {
-        DisplayMetrics metrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
-        mChessBoardAdapter = new ChessBoardAdapter(getContext(), new GameBoard(), metrics);
+        mChessBoardAdapter = new ChessBoardAdapter(getContext(), new GameBoard());
 
         ViewGroup.LayoutParams layoutParams = mGridView.getLayoutParams();
         layoutParams.width = mChessBoardAdapter.getGridViewSizeFromChessSquareSize();
