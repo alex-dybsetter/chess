@@ -2,7 +2,6 @@ package net.alexblass.chess.adapter;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +12,7 @@ import net.alexblass.chess.base.R;
 import net.alexblass.chess.constant.Constants;
 import net.alexblass.chess.model.GameBoard;
 import net.alexblass.chess.model.piece.AbstractPiece;
-
-import static net.alexblass.chess.constant.Constants.BOARD_LENGTH;
+import net.alexblass.chess.util.DisplaySizeUtil;
 
 /**
  * An adapter to correctly display the game tiles on the chess board.
@@ -23,16 +21,14 @@ public class ChessBoardAdapter extends ArrayAdapter {
 
     private Context mContext;
     private GameBoard mGameBoard;
-    private DisplayMetrics mMetrics;
     private int mChessSquareSizeInDp;
     private int mSelectedPieceIndex;
 
-    public ChessBoardAdapter(Context context, GameBoard gameBoard, DisplayMetrics metrics) {
+    public ChessBoardAdapter(Context context, GameBoard gameBoard) {
         super(context, R.layout.item_chess_board_square, gameBoard.getPiecePlacementArray());
         mContext = context;
         mGameBoard = gameBoard;
-        mMetrics = metrics;
-        mChessSquareSizeInDp = -1;
+        mChessSquareSizeInDp = Constants.CHESS_SQUARE_SIZE_UNSPECIFIED;
         mSelectedPieceIndex = Constants.NO_PIECE_SELECTED;
     }
 
@@ -40,8 +36,8 @@ public class ChessBoardAdapter extends ArrayAdapter {
         super(context, R.layout.item_chess_board_square, gameBoard.getPiecePlacementArray());
         mContext = context;
         mGameBoard = gameBoard;
-        mMetrics = null;
         mChessSquareSizeInDp = chessSquareSizeInDp;
+        mSelectedPieceIndex = Constants.NO_PIECE_SELECTED;
     }
 
     public AbstractPiece getItem(int row, int col) {
@@ -76,10 +72,10 @@ public class ChessBoardAdapter extends ArrayAdapter {
 
         viewHolder.setSquareColor(mContext, position, mSelectedPieceIndex);
 
-        if (mChessSquareSizeInDp == -1) {
-            viewHolder.setSquareDimens(mMetrics);
+        if (mChessSquareSizeInDp == Constants.CHESS_SQUARE_SIZE_UNSPECIFIED) {
+            viewHolder.setSquareDimens(mContext);
         } else {
-            viewHolder.setSquareDimens(mChessSquareSizeInDp);
+            viewHolder.setSquareDimens(mContext, mChessSquareSizeInDp);
         }
 
         int resId = (piece != null) ? piece.getImageResId() : 0;
@@ -104,7 +100,11 @@ public class ChessBoardAdapter extends ArrayAdapter {
     }
 
     public int getGridViewSizeFromChessSquareSize() {
-        return (getScreenShortSide(mMetrics) / Constants.BOARD_LENGTH) * BOARD_LENGTH;
+        if (mChessSquareSizeInDp != Constants.CHESS_SQUARE_SIZE_UNSPECIFIED) {
+            return DisplaySizeUtil.convertDpToPx(mContext, mChessSquareSizeInDp) * Constants.BOARD_LENGTH;
+        } else {
+            return DisplaySizeUtil.getScreenShortSide(mContext);
+        }
     }
 
     // public static methods //////////////////////////////////////////////////////////////////////
@@ -118,13 +118,6 @@ public class ChessBoardAdapter extends ArrayAdapter {
 
     public static int convertRowColToPosition(int row, int col) {
         return row * Constants.BOARD_LENGTH + col;
-    }
-
-    // private static helper methods //////////////////////////////////////////////////////////////
-    private static int getScreenShortSide(DisplayMetrics metrics) {
-        int screenHeight = metrics.heightPixels;
-        int screenWidth = metrics.widthPixels;
-        return (screenHeight < screenWidth) ? screenHeight : screenWidth;
     }
 
     // Viewholder /////////////////////////////////////////////////////////////////////////////////
@@ -156,8 +149,8 @@ public class ChessBoardAdapter extends ArrayAdapter {
         /**
         * Set the chess square dimensions based off of the device size.
         **/
-        private void setSquareDimens(DisplayMetrics metrics) {
-            int chessSquareSize = (getScreenShortSide(metrics) / Constants.BOARD_LENGTH);
+        private void setSquareDimens(Context context) {
+            int chessSquareSize = (DisplaySizeUtil.getScreenShortSide(context) / Constants.BOARD_LENGTH);
 
             chessSquareImageView.getLayoutParams().width = chessSquareSize;
             chessSquareImageView.getLayoutParams().height = chessSquareSize;
@@ -166,9 +159,10 @@ public class ChessBoardAdapter extends ArrayAdapter {
         /**
          * Set the chess square dimensions based off of a predetermined size.
          **/
-        private void setSquareDimens(int chessSquareSizeInDp) {
-            chessSquareImageView.getLayoutParams().width = chessSquareSizeInDp;
-            chessSquareImageView.getLayoutParams().height = chessSquareSizeInDp;
+        private void setSquareDimens(Context context, int chessSquareSizeInDp) {
+            int chessSquareSizeInPx = DisplaySizeUtil.convertDpToPx(context, chessSquareSizeInDp);
+            chessSquareImageView.getLayoutParams().width = chessSquareSizeInPx;
+            chessSquareImageView.getLayoutParams().height = chessSquareSizeInPx;
         }
     }
 }
