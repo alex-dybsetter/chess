@@ -39,4 +39,6 @@ public class Constants {
     // To determine the position in the list with an x and y
     // coordinate, use (x * BOARD_LENGTH) + y. This formula
     // is already saved in our Piece class in mListPosition
+
+    public static final int NO_PIECE_SELECTED = -1;
 }

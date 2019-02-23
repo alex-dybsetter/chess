@@ -25,6 +25,6 @@ public class QueenPiece extends AbstractPiece {
 
     @Override
     public int getImageResId() {
-        return mColor.equals(PieceColor.BLACK) ? R.drawable.ic_piece_modern_queen_black : R.drawable.ic_piece_modern_queen_white;
+        return getColor().equals(PieceColor.BLACK) ? R.drawable.ic_piece_modern_queen_black : R.drawable.ic_piece_modern_queen_white;
     }
 }
