@@ -14,7 +14,6 @@ import net.alexblass.chess.adapter.ChessBoardAdapter;
 import net.alexblass.chess.base.R;
 import net.alexblass.chess.fragment.presenter.PlayGameFragmentPresenter;
 import net.alexblass.chess.model.GameBoard;
-import net.alexblass.chess.model.PieceColor;
 import net.alexblass.chess.model.piece.AbstractPiece;
 
 import butterknife.ButterKnife;
@@ -59,7 +58,7 @@ public class PlayGameFragment extends Fragment {
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mPresenter.handleClick(mChessBoardAdapter.getGameBoard(), PieceColor.WHITE, position);
+                mPresenter.handleClick(mChessBoardAdapter.getGameBoard(), position);
             }
         });
     }
