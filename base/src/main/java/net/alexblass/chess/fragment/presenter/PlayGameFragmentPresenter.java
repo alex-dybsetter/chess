@@ -34,7 +34,7 @@ public class PlayGameFragmentPresenter {
             handleFirstClick(gameBoard, position);
         } else {
             mSecondClickCoordinates = new Pair<>(row, col);
-            handleSecondClick(gameBoard, position, row, col);
+            handleSecondClick(gameBoard, position);
         }
     }
 
@@ -51,15 +51,20 @@ public class PlayGameFragmentPresenter {
         }
     }
 
-    private void handleSecondClick(GameBoard gameBoard, int position, int row, int col) {
+    private void handleSecondClick(GameBoard gameBoard, int position) {
         if (mFirstClickCoordinates.equals(mSecondClickCoordinates)) {
             mView.toggleSelectPiece(position);
             resetClicks();
             return;
         }
 
+        if (!mSelectedPiece.isValidMove(gameBoard, mSecondClickCoordinates.first, mSecondClickCoordinates.second)) {
+            mView.showErrorToast(R.string.invalid_move_invalid_move);
+            return;
+        }
+
         if (mSelectedPiece != null) {
-            mView.movePiece(mSelectedPiece, row, col);
+            mView.movePiece(mSelectedPiece, mSecondClickCoordinates.first, mSecondClickCoordinates.second);
             mView.toggleSelectPiece(position);
             mGame.nextTurn();
             resetClicks();

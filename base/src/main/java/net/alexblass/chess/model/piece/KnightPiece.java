@@ -1,6 +1,7 @@
 package net.alexblass.chess.model.piece;
 
 import net.alexblass.chess.base.R;
+import net.alexblass.chess.model.GameBoard;
 import net.alexblass.chess.model.PieceColor;
 
 /**
@@ -21,7 +22,7 @@ public class KnightPiece extends AbstractPiece {
      * Where if |Up/Down| == 2 then Left/Right == 1 or |Left/Right| == 2 then Up/Down == 1
      **/
     @Override
-    public boolean isValidMove() {
+    public boolean isValidMove(GameBoard gameBoard, int newRow, int newCol) {
         return true;
     }
 

@@ -6,6 +6,7 @@
     <string name="string_color_white">white</string>
 
     <!--Play Game Fragment-->
+    <string name="invalid_move_invalid_move">This move is invalid.</string>
     <string name="invalid_move_invalid_piece">Please select a valid piece.</string>
     <string name="invalid_move_invalid_color">Cannot move opponent\'s piece.</string>
 </resources>
