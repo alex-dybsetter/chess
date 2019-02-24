@@ -1,6 +1,7 @@
 package net.alexblass.chess.model.piece;
 
 import net.alexblass.chess.base.R;
+import net.alexblass.chess.model.GameBoard;
 import net.alexblass.chess.model.PieceColor;
 
 /**
@@ -21,7 +22,7 @@ public class BishopPiece extends AbstractPiece {
      * Where |Up/Down| == |Left/Right|
      **/
     @Override
-    public boolean isValidMove() {
+    public boolean isValidMove(GameBoard gameBoard, int newRow, int newCol) {
         return true;
     }
 

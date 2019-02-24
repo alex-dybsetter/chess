@@ -1,5 +1,6 @@
 package net.alexblass.chess.model.piece;
 
+import net.alexblass.chess.model.GameBoard;
 import net.alexblass.chess.model.PieceColor;
 
 /**
@@ -16,13 +17,14 @@ public abstract class AbstractPiece {
     private boolean mHasMovedFromStart;
     private boolean mIsActive;
 
-    abstract public boolean isValidMove();
+    abstract public boolean isValidMove(GameBoard gameBoard, int newRow, int newCol);
     abstract public int getImageResId();
 
     public AbstractPiece(PieceColor color, int row, int col) {
         mColor = color;
         mRow = row;
         mCol = col;
+        mHasMovedFromStart = false;
     }
 
     public int getRow() {
@@ -44,5 +46,9 @@ public abstract class AbstractPiece {
 
     public void setHasMovedFromStart(boolean hasMovedFromStart) {
         mHasMovedFromStart = hasMovedFromStart;
+    }
+
+    public boolean canCapturePiece(AbstractPiece pieceToCapture) {
+        return !mColor.equals(pieceToCapture.getColor());
     }
 }
