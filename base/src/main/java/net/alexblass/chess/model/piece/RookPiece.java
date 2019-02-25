@@ -23,13 +23,7 @@ public class RookPiece extends AbstractPiece {
      **/
     @Override
     public boolean isValidMove(GameBoard gameBoard, int newRow, int newCol) {
-        int rowDelta = newRow - getRow();
-        int colDelta = newCol - getCol();
-
-        if ((rowDelta != 0 && colDelta != 0) || areThereObstructions(gameBoard, newRow, newCol)) {
-            return false;
-        }
-        return true;
+        return isValidRookMove(gameBoard, this, newRow, newCol);
     }
 
     @Override
@@ -37,32 +31,42 @@ public class RookPiece extends AbstractPiece {
         return getColor().equals(PieceColor.BLACK) ? R.drawable.ic_piece_modern_rook_black : R.drawable.ic_piece_modern_rook_white;
     }
 
-    private boolean areThereObstructions(GameBoard gameBoard, int newRow, int newCol) {
+    public static boolean isValidRookMove(GameBoard gameBoard, AbstractPiece pieceToMove, int newRow, int newCol) {
+        int rowDelta = newRow - pieceToMove.getRow();
+        int colDelta = newCol - pieceToMove.getCol();
+
+        if ((rowDelta != 0 && colDelta != 0) || areThereObstructions(gameBoard, pieceToMove, newRow, newCol)) {
+            return false;
+        }
+        return true;
+    }
+
+    private static boolean areThereObstructions(GameBoard gameBoard, AbstractPiece pieceToMove, int newRow, int newCol) {
         AbstractPiece piece;
 
-        if (getRow() < newRow) { // Rook moves down the board
-            for (int i = getRow() + 1; i <= newRow - 1; i++) {
+        if (pieceToMove.getRow() < newRow) { // Rook moves down the board
+            for (int i = pieceToMove.getRow() + 1; i <= newRow - 1; i++) {
                 piece = gameBoard.getPieceAtCoordinates(i, newCol);
                 if (piece != null) {
                     return true;
                 }
             }
-        } else if (getRow() > newRow) { // Rook moves up the board
-            for (int i = getRow() - 1; i >= newRow + 1; i--) {
+        } else if (pieceToMove.getRow() > newRow) { // Rook moves up the board
+            for (int i = pieceToMove.getRow() - 1; i >= newRow + 1; i--) {
                 piece = gameBoard.getPieceAtCoordinates(i, newCol);
                 if (piece != null) {
                     return true;
                 }
             }
-        } else if (getCol() < newCol) { // Rook moves right on the board
-            for (int i = getCol() + 1; i <= newCol - 1; i++) {
+        } else if (pieceToMove.getCol() < newCol) { // Rook moves right on the board
+            for (int i = pieceToMove.getCol() + 1; i <= newCol - 1; i++) {
                 piece = gameBoard.getPieceAtCoordinates(newRow, i);
                 if (piece != null) {
                     return true;
                 }
             }
-        } else if (getCol() > newCol) { // Rook moves left on the board
-            for (int i = getCol() - 1; i >= newCol + 1; i--) {
+        } else if (pieceToMove.getCol() > newCol) { // Rook moves left on the board
+            for (int i = pieceToMove.getCol() - 1; i >= newCol + 1; i--) {
                 piece = gameBoard.getPieceAtCoordinates(newRow, i);
                 if (piece != null) {
                     return true;
@@ -71,6 +75,6 @@ public class RookPiece extends AbstractPiece {
         }
 
         piece = gameBoard.getPieceAtCoordinates(newRow, newCol);
-        return piece != null && !canCapturePiece(piece);
+        return piece != null && !pieceToMove.canCapturePiece(piece);
     }
 }

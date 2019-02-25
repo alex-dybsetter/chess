@@ -21,7 +21,8 @@ public class QueenPiece extends AbstractPiece {
      **/
     @Override
     public boolean isValidMove(GameBoard gameBoard, int newRow, int newCol) {
-        return true;
+        return RookPiece.isValidRookMove(gameBoard, this, newRow, newCol) ||
+                BishopPiece.isValidBishopMove(gameBoard, this, newRow, newCol);
     }
 
     @Override
