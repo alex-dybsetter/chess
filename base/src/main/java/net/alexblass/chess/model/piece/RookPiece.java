@@ -31,7 +31,7 @@ public class RookPiece extends AbstractPiece {
         return getColor().equals(PieceColor.BLACK) ? R.drawable.ic_piece_modern_rook_black : R.drawable.ic_piece_modern_rook_white;
     }
 
-    public static boolean isValidRookMove(GameBoard gameBoard, AbstractPiece pieceToMove, int newRow, int newCol) {
+    static boolean isValidRookMove(GameBoard gameBoard, AbstractPiece pieceToMove, int newRow, int newCol) {
         int rowDelta = newRow - pieceToMove.getRow();
         int colDelta = newCol - pieceToMove.getCol();
 

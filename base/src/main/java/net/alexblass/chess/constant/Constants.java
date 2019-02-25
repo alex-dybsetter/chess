@@ -43,5 +43,6 @@ public class Constants {
     public static final int CHESS_SQUARE_SIZE_UNSPECIFIED = -1;
     public static final int NO_PIECE_SELECTED = -1;
 
-    public static final int INVALID_MOVE = -BOARD_LENGTH * BOARD_LENGTH;
+    public static final int LEFT_ROOK_START_COL = 0;
+    public static final int RIGHT_ROOK_START_COL = 7;
 }

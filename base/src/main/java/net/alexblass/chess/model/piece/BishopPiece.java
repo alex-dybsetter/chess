@@ -31,7 +31,7 @@ public class BishopPiece extends AbstractPiece {
         return getColor().equals(PieceColor.BLACK) ? R.drawable.ic_piece_modern_bishop_black : R.drawable.ic_piece_modern_bishop_white;
     }
 
-    public static boolean isValidBishopMove(GameBoard gameBoard, AbstractPiece pieceToMove, int newRow, int newCol) {
+    static boolean isValidBishopMove(GameBoard gameBoard, AbstractPiece pieceToMove, int newRow, int newCol) {
         int rowDelta = newRow - pieceToMove.getRow();
         int colDelta = newCol - pieceToMove.getCol();
 

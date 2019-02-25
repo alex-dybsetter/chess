@@ -39,6 +39,10 @@ public abstract class AbstractPiece {
         return mColor;
     }
 
+    public boolean hasMovedFromStart() {
+        return mHasMovedFromStart;
+    }
+
     public void setCoordinates(int row, int col) {
         mRow = row;
         mCol = col;
