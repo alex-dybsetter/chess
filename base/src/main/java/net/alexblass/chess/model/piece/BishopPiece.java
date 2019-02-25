@@ -23,13 +23,7 @@ public class BishopPiece extends AbstractPiece {
      **/
     @Override
     public boolean isValidMove(GameBoard gameBoard, int newRow, int newCol) {
-        int rowDelta = newRow - getRow();
-        int colDelta = newCol - getCol();
-
-        if (Math.abs(rowDelta) != Math.abs(colDelta) || areThereObstructions(gameBoard, newRow, newCol)){
-            return false;
-        }
-        return true;
+        return isValidBishopMove(gameBoard, this, newRow, newCol);
     }
 
     @Override
@@ -37,15 +31,25 @@ public class BishopPiece extends AbstractPiece {
         return getColor().equals(PieceColor.BLACK) ? R.drawable.ic_piece_modern_bishop_black : R.drawable.ic_piece_modern_bishop_white;
     }
 
-    private boolean areThereObstructions(GameBoard gameBoard, int newRow, int newCol) {
-        int rowDirection = getRow() < newRow ? 1: -1; // Moving downward or upward
-        int colDirection = getCol() < newCol ? 1: -1; // Moving right or left
+    public static boolean isValidBishopMove(GameBoard gameBoard, AbstractPiece pieceToMove, int newRow, int newCol) {
+        int rowDelta = newRow - pieceToMove.getRow();
+        int colDelta = newCol - pieceToMove.getCol();
 
-        int checkNextRowAvailability = getRow() + rowDirection;
-        int checkNextColAvailability = getCol() + colDirection;
+        if (Math.abs(rowDelta) != Math.abs(colDelta) || areThereObstructions(gameBoard, pieceToMove, newRow, newCol)){
+            return false;
+        }
+        return true;
+    }
+
+    private static boolean areThereObstructions(GameBoard gameBoard, AbstractPiece pieceToMove, int newRow, int newCol) {
+        int rowDirection = pieceToMove.getRow() < newRow ? 1: -1; // Moving downward or upward
+        int colDirection = pieceToMove.getCol() < newCol ? 1: -1; // Moving right or left
+
+        int checkNextRowAvailability = pieceToMove.getRow() + rowDirection;
+        int checkNextColAvailability = pieceToMove.getCol() + colDirection;
 
         AbstractPiece piece;
-        if (Math.abs(newRow - getRow()) > 1) {
+        if (Math.abs(newRow - pieceToMove.getRow()) > 1) {
             while (checkNextRowAvailability != newRow - rowDirection) {
                 piece = gameBoard.getPieceAtCoordinates(checkNextRowAvailability, checkNextColAvailability);
                 if (piece != null) {
@@ -62,6 +66,6 @@ public class BishopPiece extends AbstractPiece {
         }
 
         piece = gameBoard.getPieceAtCoordinates(newRow, newCol);
-        return piece != null && !canCapturePiece(piece);
+        return piece != null && !pieceToMove.canCapturePiece(piece);
     }
 }
