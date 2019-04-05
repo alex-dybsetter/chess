@@ -10,8 +10,11 @@ import net.alexblass.chess.model.PieceColor;
  */
 public class KingPiece extends AbstractPiece {
 
+    private boolean mIsCastling;
+
     public KingPiece(PieceColor color, int row, int col) {
         super(color, row, col);
+        mIsCastling = false;
     }
 
     /**
@@ -37,13 +40,12 @@ public class KingPiece extends AbstractPiece {
         int rowDelta = newRow - getRow();
         int colDelta = newCol - getCol();
 
-        boolean isCastling = isCastling(gameBoard, newRow, newCol);
-
-        if (!(Math.abs(rowDelta) <= 1 && Math.abs(colDelta) <= 1) && !isCastling) {
-            return false;
-        }
-        if (isCastling) {
+        mIsCastling = isCastling(gameBoard, newRow, newCol);
+        if (mIsCastling) {
             return !areThereObstructions(gameBoard, newRow, newCol);
+        }
+        if (!(Math.abs(rowDelta) <= 1 && Math.abs(colDelta) <= 1)) {
+            return false;
         }
 
         AbstractPiece piece = gameBoard.getPieceAtCoordinates(newRow, newCol);
@@ -55,15 +57,23 @@ public class KingPiece extends AbstractPiece {
         return getColor().equals(PieceColor.BLACK) ? R.drawable.ic_piece_modern_king_black : R.drawable.ic_piece_modern_king_white;
     }
 
-    // TODO : Need to move rook on the board also
+    public boolean isCastling() {
+        return mIsCastling;
+    }
+
+    public RookPiece getCastlingRook(GameBoard gameBoard, int row, int colDelta) {
+        int rookColPosition = colDelta > 0 ? Constants.RIGHT_ROOK_START_COL : Constants.LEFT_ROOK_START_COL;
+        AbstractPiece castlingRook = gameBoard.getPieceAtCoordinates(row, rookColPosition);
+        return castlingRook instanceof RookPiece ? (RookPiece) castlingRook : null;
+    }
+
     private boolean isCastling(GameBoard gameBoard, int newRow, int newCol) {
         int rowDelta = newRow - getRow();
         int colDelta = newCol - getCol();
 
         if (!hasMovedFromStart() && rowDelta == 0 && Math.abs(colDelta) == 2) {
-            int rookColPosition = colDelta > 0 ? Constants.RIGHT_ROOK_START_COL : Constants.LEFT_ROOK_START_COL;
-            AbstractPiece castlingRook = gameBoard.getPieceAtCoordinates(newRow, rookColPosition);
-            return castlingRook instanceof RookPiece && !castlingRook.hasMovedFromStart();
+            RookPiece castlingRook = getCastlingRook(gameBoard, newRow, colDelta);
+            return castlingRook != null && !castlingRook.hasMovedFromStart();
         }
         return false;
     }

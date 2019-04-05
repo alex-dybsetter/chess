@@ -45,4 +45,6 @@ public class Constants {
 
     public static final int LEFT_ROOK_START_COL = 0;
     public static final int RIGHT_ROOK_START_COL = 7;
+    public static final int CASTLING_ROOK_MOVE_LEFT = -1;
+    public static final int CASTLING_ROOK_MOVE_RIGHT = 1;
 }

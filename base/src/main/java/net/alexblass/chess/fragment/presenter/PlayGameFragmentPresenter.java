@@ -5,10 +5,13 @@ import android.util.Pair;
 
 import net.alexblass.chess.adapter.ChessBoardAdapter;
 import net.alexblass.chess.base.R;
+import net.alexblass.chess.constant.Constants;
 import net.alexblass.chess.fragment.PlayGameFragment;
 import net.alexblass.chess.model.Game;
 import net.alexblass.chess.model.GameBoard;
 import net.alexblass.chess.model.piece.AbstractPiece;
+import net.alexblass.chess.model.piece.KingPiece;
+import net.alexblass.chess.model.piece.RookPiece;
 
 public class PlayGameFragmentPresenter {
     private Context mContext;
@@ -65,10 +68,23 @@ public class PlayGameFragmentPresenter {
 
         if (mSelectedPiece != null) {
             mView.movePiece(mSelectedPiece, mSecondClickCoordinates.first, mSecondClickCoordinates.second);
+            if (mSelectedPiece instanceof KingPiece && ((KingPiece) mSelectedPiece).isCastling()) {
+                castlingMoveRookPiece(gameBoard);
+            }
             mView.toggleSelectPiece(position);
             mGame.nextTurn();
             resetClicks();
         }
+    }
+
+    private void castlingMoveRookPiece(GameBoard gameBoard) {
+        int castlingKingColDelta = mSecondClickCoordinates.second - mFirstClickCoordinates.second;
+        int rookCol = mSecondClickCoordinates.second;
+        rookCol += castlingKingColDelta > 0 ? Constants.CASTLING_ROOK_MOVE_LEFT : Constants.CASTLING_ROOK_MOVE_RIGHT;
+
+        RookPiece castlingRook = ((KingPiece) mSelectedPiece)
+                .getCastlingRook(gameBoard, mSecondClickCoordinates.first, castlingKingColDelta);
+        mView.movePiece(castlingRook, mSecondClickCoordinates.first, rookCol);
     }
 
     private void resetClicks() {
