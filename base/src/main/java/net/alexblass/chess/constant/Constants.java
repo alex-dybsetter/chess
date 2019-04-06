@@ -47,4 +47,8 @@ public class Constants {
     public static final int RIGHT_ROOK_START_COL = 7;
     public static final int CASTLING_ROOK_MOVE_LEFT = -1;
     public static final int CASTLING_ROOK_MOVE_RIGHT = 1;
+
+    public static final int PAWN_FIRST_MOVE = 2;
+    public static final int PAWN_STD_MOVE = 1;
+    public static final int PAWN_CAPTURE_ROW_CHANGE = 1;
 }

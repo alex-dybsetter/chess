@@ -1,6 +1,7 @@
 package net.alexblass.chess.model.piece;
 
 import net.alexblass.chess.base.R;
+import net.alexblass.chess.constant.Constants;
 import net.alexblass.chess.model.GameBoard;
 import net.alexblass.chess.model.PieceColor;
 
@@ -41,11 +42,37 @@ public class PawnPiece extends AbstractPiece {
      **/
     @Override
     public boolean isValidMove(GameBoard gameBoard, int newRow, int newCol) {
-        return true;
+        int rowDelta = newRow - getRow();
+        int colDelta = newCol - getCol();
+
+        AbstractPiece piece = gameBoard.getPieceAtCoordinates(newRow, newCol);
+
+        if (colDelta == 0 && (isStandardPawnMove(rowDelta) || isFirstPawnMove(rowDelta))) {
+            return piece == null && isPawnDirectionValid(rowDelta);
+        }
+
+        if (Math.abs(colDelta) == Constants.PAWN_CAPTURE_ROW_CHANGE && Math.abs(rowDelta) == Constants.PAWN_STD_MOVE) {
+            return piece != null && canCapturePiece(piece);
+        }
+
+        return false;
     }
 
     @Override
     public int getImageResId() {
         return getColor().equals(PieceColor.BLACK) ? R.drawable.ic_piece_modern_pawn_black : R.drawable.ic_piece_modern_pawn_white;
+    }
+
+    private boolean isFirstPawnMove(int rowDelta) {
+        return !hasMovedFromStart() && Math.abs(rowDelta) == Constants.PAWN_FIRST_MOVE;
+    }
+
+    private boolean isStandardPawnMove(int rowDelta) {
+        return Math.abs(rowDelta) == Constants.PAWN_STD_MOVE;
+    }
+
+    private boolean isPawnDirectionValid(int rowDelta) {
+        return getColor().equals(PieceColor.BLACK) && rowDelta > 0 ||
+                getColor().equals(PieceColor.WHITE) && rowDelta < 0;
     }
 }
