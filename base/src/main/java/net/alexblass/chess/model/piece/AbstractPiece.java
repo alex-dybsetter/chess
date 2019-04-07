@@ -17,8 +17,8 @@ public abstract class AbstractPiece {
     private boolean mHasMovedFromStart;
     private boolean mIsActive;
 
-    abstract public boolean isValidMove(GameBoard gameBoard, int newRow, int newCol);
     abstract public int getImageResId();
+    abstract public boolean isValidMove(GameBoard gameBoard, int newRow, int newCol);
 
     public AbstractPiece(PieceColor color, int row, int col) {
         mColor = color;
@@ -29,6 +29,10 @@ public abstract class AbstractPiece {
 
     static boolean isSquareEmpty(AbstractPiece pieceSpace) {
         return pieceSpace == null;
+    }
+
+    public String getName() {
+        return mName;
     }
 
     public int getRow() {
@@ -45,6 +49,10 @@ public abstract class AbstractPiece {
 
     boolean hasMovedFromStart() {
         return mHasMovedFromStart;
+    }
+
+    public void setName(String name) {
+        mName = name;
     }
 
     public void setCoordinates(int row, int col) {

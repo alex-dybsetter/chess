@@ -11,9 +11,9 @@ import net.alexblass.chess.model.PieceColor;
 public class PawnPiece extends AbstractPiece {
 
     // TODO: En Passant move logic
-    // TODO: Pawn promotion logic
     public PawnPiece(PieceColor color, int row, int col) {
         super(color, row, col);
+        setName(Constants.PAWN);
     }
 
     /**
@@ -63,6 +63,11 @@ public class PawnPiece extends AbstractPiece {
     @Override
     public int getImageResId() {
         return getColor().equals(PieceColor.BLACK) ? R.drawable.ic_piece_modern_pawn_black : R.drawable.ic_piece_modern_pawn_white;
+    }
+
+    public boolean isPawnEligibleForPromotion() {
+        return getColor().equals(PieceColor.BLACK) && getRow() == Constants.HOME_ROW_WHITE ||
+                getColor().equals(PieceColor.WHITE) && getRow() == Constants.HOME_ROW_BLACK;
     }
 
     private boolean isFirstPawnMove(int rowDelta) {

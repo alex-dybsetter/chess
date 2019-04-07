@@ -14,9 +14,12 @@ import net.alexblass.chess.ChessApplication;
 import net.alexblass.chess.adapter.ChessBoardAdapter;
 import net.alexblass.chess.base.R;
 import net.alexblass.chess.bus.event.CastlingEvent;
+import net.alexblass.chess.bus.event.PawnEligibleForPromotionEvent;
+import net.alexblass.chess.bus.event.PawnPromotedEvent;
 import net.alexblass.chess.fragment.presenter.PlayGameFragmentPresenter;
 import net.alexblass.chess.model.GameBoard;
 import net.alexblass.chess.model.piece.AbstractPiece;
+import net.alexblass.chess.util.DialogUtil;
 
 import butterknife.ButterKnife;
 import io.reactivex.functions.Consumer;
@@ -61,20 +64,8 @@ public class PlayGameFragment extends Fragment {
                 mPresenter.handleClick(mChessBoardAdapter.getGameBoard(), position);
             }
         });
-    }
 
-    @SuppressLint("CheckResult")
-    private void subscribeToCastlingEvent() {
-        ChessApplication.bus()
-                .toObservable()
-                .subscribe(new Consumer<Object>() {
-                    @Override
-                    public void accept(Object event) {
-                        if (event instanceof CastlingEvent) {
-                            mPresenter.castlingMoveRookPiece(mChessBoardAdapter.getGameBoard());
-                        }
-                    }
-                });
+        subscribeToEvents();
     }
 
     public void toggleSelectPiece(int position) {
@@ -87,5 +78,25 @@ public class PlayGameFragment extends Fragment {
 
     public void showErrorToast(int stringId) {
         Toast.makeText(getActivity(), stringId, Toast.LENGTH_SHORT).show();
+    }
+
+    @SuppressLint("CheckResult")
+    private void subscribeToEvents() {
+        ChessApplication.bus()
+                .toObservable()
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object event) {
+                        if (event instanceof CastlingEvent) {
+                            mPresenter.castlingMoveRookPiece(mChessBoardAdapter.getGameBoard());
+                        } else if (event instanceof PawnEligibleForPromotionEvent) {
+                            DialogUtil.showPawnPromotionDialog(getContext(),
+                                    ((PawnEligibleForPromotionEvent) event).getPawnToPromote());
+                        } else if (event instanceof PawnPromotedEvent) {
+                            AbstractPiece piece = mPresenter.promotePawn(((PawnPromotedEvent) event).getPawnToPromote());
+                            movePiece(piece, piece.getRow(), piece.getCol());
+                        }
+                    }
+                });
     }
 }

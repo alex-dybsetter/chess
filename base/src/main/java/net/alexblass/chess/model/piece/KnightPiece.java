@@ -1,6 +1,7 @@
 package net.alexblass.chess.model.piece;
 
 import net.alexblass.chess.base.R;
+import net.alexblass.chess.constant.Constants;
 import net.alexblass.chess.model.GameBoard;
 import net.alexblass.chess.model.PieceColor;
 
@@ -11,6 +12,7 @@ public class KnightPiece extends AbstractPiece {
 
     public KnightPiece(PieceColor color, int row, int col) {
         super(color, row, col);
+        setName(Constants.KNIGHT);
     }
 
     /**

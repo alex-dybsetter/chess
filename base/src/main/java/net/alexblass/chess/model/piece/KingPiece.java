@@ -17,6 +17,7 @@ public class KingPiece extends AbstractPiece {
 
     public KingPiece(PieceColor color, int row, int col) {
         super(color, row, col);
+        setName(Constants.KING);
     }
 
     /**

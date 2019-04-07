@@ -1,6 +1,8 @@
 package net.alexblass.chess.model;
 
+import net.alexblass.chess.ChessApplication;
 import net.alexblass.chess.adapter.ChessBoardAdapter;
+import net.alexblass.chess.bus.event.PawnEligibleForPromotionEvent;
 import net.alexblass.chess.model.piece.AbstractPiece;
 import net.alexblass.chess.model.piece.BishopPiece;
 import net.alexblass.chess.model.piece.KingPiece;
@@ -77,6 +79,10 @@ public class GameBoard {
         piece.setCoordinates(newRow, newCol);
         piece.setHasMovedFromStart(true);
         mPiecePlacementArray[newRow][newCol] = piece;
+
+        if (piece instanceof PawnPiece && ((PawnPiece) piece).isPawnEligibleForPromotion()) {
+            ChessApplication.bus().post(new PawnEligibleForPromotionEvent(piece));
+        }
     }
 
     // Helper methods /////////////////////////////////////////////////////////////////////////////

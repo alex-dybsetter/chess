@@ -5,8 +5,19 @@
     <string name="string_color_black">black</string>
     <string name="string_color_white">white</string>
 
-    <!--Play Game Fragment-->
+    <!--Piece names-->
+    <string name="queen">Queen</string>
+    <string name="rook">Rook</string>
+    <string name="bishop">Bishop</string>
+    <string name="knight">Knight</string>
+
+    <!--PlayGameFragment-->
+    <!--Invalid move alert toasts-->
     <string name="invalid_move_invalid_move">This move is invalid.</string>
     <string name="invalid_move_invalid_piece">Please select a valid piece.</string>
     <string name="invalid_move_invalid_color">Cannot move opponent\'s piece.</string>
+
+    <!--Dialogs-->
+    <string name="dialog_title_pawn_promotion">Choose your new piece:</string>
+    <!--End PlayGameFragment-->
 </resources>

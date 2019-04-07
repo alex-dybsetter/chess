@@ -9,8 +9,12 @@ import net.alexblass.chess.constant.Constants;
 import net.alexblass.chess.fragment.PlayGameFragment;
 import net.alexblass.chess.model.Game;
 import net.alexblass.chess.model.GameBoard;
+import net.alexblass.chess.model.PieceColor;
 import net.alexblass.chess.model.piece.AbstractPiece;
+import net.alexblass.chess.model.piece.BishopPiece;
 import net.alexblass.chess.model.piece.KingPiece;
+import net.alexblass.chess.model.piece.KnightPiece;
+import net.alexblass.chess.model.piece.QueenPiece;
 import net.alexblass.chess.model.piece.RookPiece;
 
 public class PlayGameFragmentPresenter {
@@ -38,6 +42,35 @@ public class PlayGameFragmentPresenter {
         } else {
             mSecondClickCoordinates = new Pair<>(row, col);
             handleSecondClick(gameBoard, position);
+        }
+    }
+
+    public void castlingMoveRookPiece(GameBoard gameBoard) {
+        int castlingKingColDelta = mSecondClickCoordinates.second - mFirstClickCoordinates.second;
+        int rookCol = mSecondClickCoordinates.second;
+        rookCol += castlingKingColDelta > 0 ? Constants.CASTLING_ROOK_MOVE_LEFT : Constants.CASTLING_ROOK_MOVE_RIGHT;
+
+        RookPiece castlingRook = ((KingPiece) mSelectedPiece)
+                .getCastlingRook(gameBoard, mSecondClickCoordinates.first, castlingKingColDelta);
+        mView.movePiece(castlingRook, mSecondClickCoordinates.first, rookCol);
+    }
+
+    public AbstractPiece promotePawn(AbstractPiece pawnToPromote) {
+        PieceColor color = pawnToPromote.getColor();
+        int row = pawnToPromote.getRow();
+        int col = pawnToPromote.getCol();
+
+        switch (pawnToPromote.getName()) {
+            case Constants.QUEEN:
+                return new QueenPiece(color,row, col);
+            case Constants.BISHOP:
+                return new BishopPiece(color,row, col);
+            case Constants.ROOK:
+                return new RookPiece(color,row, col);
+            case Constants.KNIGHT:
+                return new KnightPiece(color,row, col);
+            default:
+                return pawnToPromote;
         }
     }
 
@@ -72,16 +105,6 @@ public class PlayGameFragmentPresenter {
             mGame.nextTurn();
             resetClicks();
         }
-    }
-
-    public void castlingMoveRookPiece(GameBoard gameBoard) {
-        int castlingKingColDelta = mSecondClickCoordinates.second - mFirstClickCoordinates.second;
-        int rookCol = mSecondClickCoordinates.second;
-        rookCol += castlingKingColDelta > 0 ? Constants.CASTLING_ROOK_MOVE_LEFT : Constants.CASTLING_ROOK_MOVE_RIGHT;
-
-        RookPiece castlingRook = ((KingPiece) mSelectedPiece)
-                .getCastlingRook(gameBoard, mSecondClickCoordinates.first, castlingKingColDelta);
-        mView.movePiece(castlingRook, mSecondClickCoordinates.first, rookCol);
     }
 
     private void resetClicks() {
