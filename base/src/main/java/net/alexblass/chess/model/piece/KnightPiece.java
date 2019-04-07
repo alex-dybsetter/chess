@@ -29,7 +29,7 @@ public class KnightPiece extends AbstractPiece {
         if ((Math.abs(rowDelta) == 1 && Math.abs(colDelta) == 2) ||
                 (Math.abs(rowDelta) == 2 && Math.abs(colDelta) == 1)) {
             AbstractPiece piece = gameBoard.getPieceAtCoordinates(newRow, newCol);
-            return piece == null || canCapturePiece(piece);
+            return isSquareEmpty(piece) || canCapturePiece(piece);
         }
         return false;
     }

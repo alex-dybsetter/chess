@@ -47,34 +47,34 @@ public class RookPiece extends AbstractPiece {
         if (pieceToMove.getRow() < newRow) { // Rook moves down the board
             for (int i = pieceToMove.getRow() + 1; i <= newRow - 1; i++) {
                 piece = gameBoard.getPieceAtCoordinates(i, newCol);
-                if (piece != null) {
+                if (!isSquareEmpty(piece)) {
                     return true;
                 }
             }
         } else if (pieceToMove.getRow() > newRow) { // Rook moves up the board
             for (int i = pieceToMove.getRow() - 1; i >= newRow + 1; i--) {
                 piece = gameBoard.getPieceAtCoordinates(i, newCol);
-                if (piece != null) {
+                if (!isSquareEmpty(piece)) {
                     return true;
                 }
             }
         } else if (pieceToMove.getCol() < newCol) { // Rook moves right on the board
             for (int i = pieceToMove.getCol() + 1; i <= newCol - 1; i++) {
                 piece = gameBoard.getPieceAtCoordinates(newRow, i);
-                if (piece != null) {
+                if (!isSquareEmpty(piece)) {
                     return true;
                 }
             }
         } else if (pieceToMove.getCol() > newCol) { // Rook moves left on the board
             for (int i = pieceToMove.getCol() - 1; i >= newCol + 1; i--) {
                 piece = gameBoard.getPieceAtCoordinates(newRow, i);
-                if (piece != null) {
+                if (!isSquareEmpty(piece)) {
                     return true;
                 }
             }
         }
 
         piece = gameBoard.getPieceAtCoordinates(newRow, newCol);
-        return piece != null && !pieceToMove.canCapturePiece(piece);
+        return !isSquareEmpty(piece) && !pieceToMove.canCapturePiece(piece);
     }
 }

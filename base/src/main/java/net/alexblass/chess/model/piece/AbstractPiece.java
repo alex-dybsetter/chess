@@ -27,6 +27,10 @@ public abstract class AbstractPiece {
         mHasMovedFromStart = false;
     }
 
+    static boolean isSquareEmpty(AbstractPiece pieceSpace) {
+        return pieceSpace == null;
+    }
+
     public int getRow() {
         return mRow;
     }
@@ -39,7 +43,7 @@ public abstract class AbstractPiece {
         return mColor;
     }
 
-    public boolean hasMovedFromStart() {
+    boolean hasMovedFromStart() {
         return mHasMovedFromStart;
     }
 
@@ -52,7 +56,7 @@ public abstract class AbstractPiece {
         mHasMovedFromStart = hasMovedFromStart;
     }
 
-    public boolean canCapturePiece(AbstractPiece pieceToCapture) {
+    boolean canCapturePiece(AbstractPiece pieceToCapture) {
         return !mColor.equals(pieceToCapture.getColor());
     }
 }

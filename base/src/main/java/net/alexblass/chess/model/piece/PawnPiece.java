@@ -10,6 +10,8 @@ import net.alexblass.chess.model.PieceColor;
  */
 public class PawnPiece extends AbstractPiece {
 
+    // TODO: En Passant move logic
+    // TODO: Pawn promotion logic
     public PawnPiece(PieceColor color, int row, int col) {
         super(color, row, col);
     }
@@ -48,11 +50,11 @@ public class PawnPiece extends AbstractPiece {
         AbstractPiece piece = gameBoard.getPieceAtCoordinates(newRow, newCol);
 
         if (colDelta == 0 && (isStandardPawnMove(rowDelta) || isFirstPawnMove(rowDelta))) {
-            return piece == null && isPawnDirectionValid(rowDelta);
+            return isSquareEmpty(piece) && isPawnDirectionValid(rowDelta);
         }
 
         if (Math.abs(colDelta) == Constants.PAWN_CAPTURE_ROW_CHANGE && Math.abs(rowDelta) == Constants.PAWN_STD_MOVE) {
-            return piece != null && canCapturePiece(piece);
+            return !isSquareEmpty(piece) && canCapturePiece(piece);
         }
 
         return false;

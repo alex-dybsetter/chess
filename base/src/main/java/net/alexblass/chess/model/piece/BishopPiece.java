@@ -50,9 +50,10 @@ public class BishopPiece extends AbstractPiece {
 
         AbstractPiece piece;
         if (Math.abs(newRow - pieceToMove.getRow()) > 1) {
+            // TODO we can probably condense this to a loop without the extra check
             while (checkNextRowAvailability != newRow - rowDirection) {
                 piece = gameBoard.getPieceAtCoordinates(checkNextRowAvailability, checkNextColAvailability);
-                if (piece != null) {
+                if (!isSquareEmpty(piece)) {
                     return true;
                 }
                 checkNextRowAvailability += rowDirection;
@@ -60,12 +61,13 @@ public class BishopPiece extends AbstractPiece {
             }
             // Check last updated position between start position and desired position
             // This position does not get checked in the loop the very last time.
-            if (gameBoard.getPieceAtCoordinates(checkNextRowAvailability, checkNextColAvailability) != null) {
+            piece = gameBoard.getPieceAtCoordinates(checkNextRowAvailability, checkNextColAvailability);
+            if (!isSquareEmpty(piece)) {
                 return true;
             }
         }
 
         piece = gameBoard.getPieceAtCoordinates(newRow, newCol);
-        return piece != null && !pieceToMove.canCapturePiece(piece);
+        return !isSquareEmpty(piece) && !pieceToMove.canCapturePiece(piece);
     }
 }
