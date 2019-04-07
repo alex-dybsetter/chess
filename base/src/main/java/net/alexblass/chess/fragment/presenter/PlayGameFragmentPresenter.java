@@ -68,16 +68,13 @@ public class PlayGameFragmentPresenter {
 
         if (mSelectedPiece != null) {
             mView.movePiece(mSelectedPiece, mSecondClickCoordinates.first, mSecondClickCoordinates.second);
-            if (mSelectedPiece instanceof KingPiece && ((KingPiece) mSelectedPiece).isCastling()) {
-                castlingMoveRookPiece(gameBoard);
-            }
             mView.toggleSelectPiece(position);
             mGame.nextTurn();
             resetClicks();
         }
     }
 
-    private void castlingMoveRookPiece(GameBoard gameBoard) {
+    public void castlingMoveRookPiece(GameBoard gameBoard) {
         int castlingKingColDelta = mSecondClickCoordinates.second - mFirstClickCoordinates.second;
         int rookCol = mSecondClickCoordinates.second;
         rookCol += castlingKingColDelta > 0 ? Constants.CASTLING_ROOK_MOVE_LEFT : Constants.CASTLING_ROOK_MOVE_RIGHT;

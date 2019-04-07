@@ -1,5 +1,6 @@
 package net.alexblass.chess.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,13 +10,16 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import net.alexblass.chess.ChessApplication;
 import net.alexblass.chess.adapter.ChessBoardAdapter;
 import net.alexblass.chess.base.R;
+import net.alexblass.chess.bus.event.CastlingEvent;
 import net.alexblass.chess.fragment.presenter.PlayGameFragmentPresenter;
 import net.alexblass.chess.model.GameBoard;
 import net.alexblass.chess.model.piece.AbstractPiece;
 
 import butterknife.ButterKnife;
+import io.reactivex.functions.Consumer;
 
 /**
  * This fragment displays the game data for the current active game.
@@ -57,6 +61,20 @@ public class PlayGameFragment extends Fragment {
                 mPresenter.handleClick(mChessBoardAdapter.getGameBoard(), position);
             }
         });
+    }
+
+    @SuppressLint("CheckResult")
+    private void subscribeToCastlingEvent() {
+        ChessApplication.bus()
+                .toObservable()
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object event) {
+                        if (event instanceof CastlingEvent) {
+                            mPresenter.castlingMoveRookPiece(mChessBoardAdapter.getGameBoard());
+                        }
+                    }
+                });
     }
 
     public void toggleSelectPiece(int position) {

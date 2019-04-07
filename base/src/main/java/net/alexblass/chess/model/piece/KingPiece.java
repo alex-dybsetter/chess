@@ -1,6 +1,8 @@
 package net.alexblass.chess.model.piece;
 
+import net.alexblass.chess.ChessApplication;
 import net.alexblass.chess.base.R;
+import net.alexblass.chess.bus.event.CastlingEvent;
 import net.alexblass.chess.constant.Constants;
 import net.alexblass.chess.model.GameBoard;
 import net.alexblass.chess.model.PieceColor;
@@ -12,11 +14,9 @@ public class KingPiece extends AbstractPiece {
 
     // TODO: check & checkmate verification
     // TODO: Kings can also capture pieces
-    private boolean mIsCastling;
 
     public KingPiece(PieceColor color, int row, int col) {
         super(color, row, col);
-        mIsCastling = false;
     }
 
     /**
@@ -42,9 +42,12 @@ public class KingPiece extends AbstractPiece {
         int rowDelta = newRow - getRow();
         int colDelta = newCol - getCol();
 
-        mIsCastling = isCastling(gameBoard, newRow, newCol);
-        if (mIsCastling) {
-            return !areThereObstructions(gameBoard, newRow, newCol);
+        if (isCastling(gameBoard, newRow, newCol)) {
+            boolean isValid = !areThereObstructions(gameBoard, newRow, newCol);
+            if (isValid) {
+                ChessApplication.bus().post(new CastlingEvent());
+            }
+            return isValid;
         }
         if (!(Math.abs(rowDelta) <= 1 && Math.abs(colDelta) <= 1)) {
             return false;
@@ -57,10 +60,6 @@ public class KingPiece extends AbstractPiece {
     @Override
     public int getImageResId() {
         return getColor().equals(PieceColor.BLACK) ? R.drawable.ic_piece_modern_king_black : R.drawable.ic_piece_modern_king_white;
-    }
-
-    public boolean isCastling() {
-        return mIsCastling;
     }
 
     public RookPiece getCastlingRook(GameBoard gameBoard, int row, int colDelta) {
