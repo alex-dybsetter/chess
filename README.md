@@ -2,7 +2,10 @@
 A simple 2 player chess app.
 
 Technologies used: 
+* Java
+* Kotlin
 * MVP Design Pattern
+* Firebase Real Time Database
 * RxJava
 * ButterKnife
 * MVP Design
