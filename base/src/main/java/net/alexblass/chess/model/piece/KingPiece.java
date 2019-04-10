@@ -13,7 +13,6 @@ import net.alexblass.chess.model.PieceColor;
 public class KingPiece extends AbstractPiece {
 
     // TODO: check & checkmate verification
-    // TODO: Kings can also capture pieces
 
     public KingPiece(PieceColor color, int row, int col) {
         super(color, row, col);

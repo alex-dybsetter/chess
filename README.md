@@ -5,7 +5,8 @@ Technologies used:
 * Java
 * Kotlin
 * MVP Design Pattern
-* Firebase Real Time Database
+* Firebase
+    - Cloud Firestore
 * RxJava
 * ButterKnife
 * MVP Design

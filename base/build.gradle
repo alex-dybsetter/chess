@@ -1,4 +1,5 @@
 apply plugin: 'com.android.feature'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 28
@@ -30,6 +31,10 @@ dependencies {
     // Butterknife
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    // Firebase
+    // Firestore Database
+    implementation 'com.google.firebase:firebase-firestore:18.2.0'
 
     // RxJava
     implementation "io.reactivex.rxjava2:rxjava:2.2.8"
